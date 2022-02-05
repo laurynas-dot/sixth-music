@@ -36,36 +36,35 @@ export class GeneralPage extends Component {
     isSideBarShown: boolean,
   };
 
-  private showSideBar = () => {
-    this.setState({...this.state, isSideBarShown: !this.state.isSideBarShown});
+  private toggleSideBar =  (show: boolean) => {
+    this.setState({isSideBarShown: show});
   }
 
-  private _notificationButton = <Button icon={<Notification />} onClick={this.showSideBar} />
+  private togleSideBar = () => {
+    this.toggleSideBar(!this.state.isSideBarShown);
+  }
+
+  private _showSideBarButton = <Button icon={<Notification />} onClick={this.togleSideBar} />
 
   private _buttons = [
-    this._notificationButton
+    this._showSideBarButton
   ];
 
   render() {
     return (
       <Grommet theme={theme}>
-        <ResponsiveContext.Consumer>
-          {size => (
+
             <Box fill>
               <AppBar buttons={this._buttons}/>
               <Box direction='row' flex overflow={{ horizontal: 'hidden' } }>
-                {size !== 'small' && (
-                  <>
-                    <Collapsible direction='horizontal' open={this.state.isSideBarShown}>
-                      <SideBarComponent/>
-                    </Collapsible>
-                    {this.body}
-                </>
-                )}
+                <SideBarComponent 
+                  isSideBarShow={this.state.isSideBarShown} 
+                  toggleSideBar={this.toggleSideBar.bind(this)}
+                />
+                {this.body}
               </Box>
             </Box>
-          )}
-        </ResponsiveContext.Consumer>
+          
       </Grommet>
     );
   }
