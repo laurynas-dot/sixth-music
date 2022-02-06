@@ -1,6 +1,6 @@
 import { Box, Button, Collapsible, Grommet, ResponsiveContext } from 'grommet';
 import React, { Component } from 'react';
-import { SideBarComponent } from '../components/SideBar';
+import { SideBarButtonInfo, SideBarComponent } from '../components/SideBar';
 import { AppBar } from '../components/TopBar';
 import { Notification } from 'grommet-icons';
 
@@ -46,20 +46,26 @@ export class GeneralPage extends Component {
 
   private _showSideBarButton = <Button icon={<Notification />} onClick={this.togleSideBar} />
 
-  private _buttons = [
+  private _topButtons = [
     this._showSideBarButton
   ];
 
+  private _sideButtons: SideBarButtonInfo[] = [
+    {name: "Metronome", onClick: () => {}},
+    {name: "Progress", onClick: () => {}},
+    {name: "Manager", onClick: () => {}},
+  ]
+
   render() {
     return (
-      <Grommet theme={theme}>
-
-            <Box fill>
-              <AppBar buttons={this._buttons}/>
+      <Grommet full theme={theme}>
+            <Box fill direction='column'>
+              <AppBar buttons={this._topButtons}/>
               <Box direction='row' flex overflow={{ horizontal: 'hidden' } }>
                 <SideBarComponent 
                   isSideBarShow={this.state.isSideBarShown} 
                   toggleSideBar={this.toggleSideBar.bind(this)}
+                  buttons={this._sideButtons}
                 />
                 {this.body}
               </Box>

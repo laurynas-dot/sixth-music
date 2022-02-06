@@ -1,10 +1,16 @@
-import { Box, Button, Collapsible, Layer, ResponsiveContext } from "grommet";
+import { Box, Button, Collapsible, Layer, ResponsiveContext, Text } from "grommet";
 import { FormClose } from "grommet-icons";
 import React from "react";
 
 interface Props {
   isSideBarShow: boolean;
   toggleSideBar: (show: boolean) => void;
+  buttons: SideBarButtonInfo[];
+}
+
+export interface SideBarButtonInfo {
+  name: string;
+  onClick: () => void;
 }
 
 export class SideBarComponent extends React.Component<Props> {
@@ -18,6 +24,17 @@ export class SideBarComponent extends React.Component<Props> {
 
   private hideSideBar = () => (this.toggleSideBar(false));
 
+  private renderButtons = () => {
+    return (
+      <>
+        {this.props.buttons.map(button => (
+          <Button size="large" onClick={button.onClick} label={button.name}>
+          </Button>
+        ))}
+      </>
+    );
+  }
+
   public render () {
     return (
       <ResponsiveContext.Consumer>
@@ -26,14 +43,14 @@ export class SideBarComponent extends React.Component<Props> {
             {size !== 'small' ? (
             <Collapsible direction='horizontal' open={this.props.isSideBarShow}>
               <Box
-                flex
                 width='medium'
                 background='light-2'
                 elevation='small'
-                align='center'
-                justify='center'
+                align='left'
+                justify='start'
+                fill='vertical'
               >
-                sidebar
+                {this.renderButtons()}
               </Box>
             </Collapsible>
           ) : this.props.isSideBarShow && (
@@ -56,7 +73,7 @@ export class SideBarComponent extends React.Component<Props> {
                align='center'
                justify='center'
              >
-               sidebar
+               {this.renderButtons()}
              </Box>
            </Layer>
           )}
