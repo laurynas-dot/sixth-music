@@ -1,13 +1,14 @@
-import { Box, Button, Collapsible, Grommet, ResponsiveContext } from 'grommet';
+import { Box, Button, Collapsible, Grid, Grommet, Sidebar, Text } from 'grommet';
 import React, { Component } from 'react';
 import { SideBarButtonInfo, SideBarComponent } from '../components/SideBar';
-import { AppBar } from '../components/TopBar';
+import { TopBar as TopBarComponent } from '../components/TopBar';
 import { Notification } from 'grommet-icons';
 
 const theme = {
   global: {
     colors: {
-      brand: '#228BE6'
+      brand: '#168a12',
+      "accent-1": '#b1310a',
     },
     font: {
       family: 'Roboto',
@@ -59,18 +60,30 @@ export class GeneralPage extends Component {
   render() {
     return (
       <Grommet full theme={theme}>
-            <Box fill direction='column'>
-              <AppBar buttons={this._topButtons}/>
-              <Box direction='row' flex overflow={{ horizontal: 'hidden' } }>
-                <SideBarComponent 
-                  isSideBarShow={this.state.isSideBarShown} 
-                  toggleSideBar={this.toggleSideBar.bind(this)}
-                  buttons={this._sideButtons}
-                />
-                {this.body}
-              </Box>
+        {Grid.available ? (
+          <Grid
+            fill
+            rows={["auto", "flex"]}
+            columns={["auto", "flex"]}
+            areas={[
+              { name: "header", start: [0, 0], end: [1, 0]},
+              { name: "sidebar", start: [0, 1], end: [0, 1]},
+              { name: "content", start: [1, 1], end: [1, 1]}
+            ]}
+          >
+            <TopBarComponent buttons={this._topButtons}/>
+            <SideBarComponent 
+              isSideBarShow={this.state.isSideBarShown}
+              toggleSideBar={this.toggleSideBar.bind(this)}
+              buttons={this._sideButtons}
+            />
+            <Box gridArea="content" background="url('bg.jpg')">
+              {this.body}
             </Box>
-          
+          </Grid>
+        ) : (
+          <Text>Not supported by your browser</Text>
+        )}
       </Grommet>
     );
   }

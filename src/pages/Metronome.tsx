@@ -1,3 +1,4 @@
+import { Box } from "grommet";
 import { MetronomeComponent } from "../components/Metronome";
 import { GeneralPage } from "./General";
 

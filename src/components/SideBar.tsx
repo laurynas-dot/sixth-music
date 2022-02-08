@@ -28,7 +28,12 @@ export class SideBarComponent extends React.Component<Props> {
     return (
       <>
         {this.props.buttons.map(button => (
-          <Button size="large" onClick={button.onClick} label={button.name}>
+          <Button 
+            key={button.name} 
+            onClick={button.onClick} 
+            label={button.name}
+            hoverIndicator
+          >
           </Button>
         ))}
       </>
@@ -43,6 +48,7 @@ export class SideBarComponent extends React.Component<Props> {
             {size !== 'small' ? (
             <Collapsible direction='horizontal' open={this.props.isSideBarShow}>
               <Box
+                gridArea="sidebar"
                 width='medium'
                 background='light-2'
                 elevation='small'
